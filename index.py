@@ -1,7 +1,7 @@
 import datetime
 
 import bottle
-from bottle import HTTPError, run, request
+from bottle import HTTPError, run, request, redirect
 from bottle.ext import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, Sequence, String, Enum, Date
 from sqlalchemy.ext.declarative import declarative_base
