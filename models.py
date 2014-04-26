@@ -46,3 +46,11 @@ class Event(Base):
         self.gender = gender
         self.description = description
         self.attachment = attachment
+
+
+engine_c = create_engine('sqlite:///countries.db', echo=True)
+
+class Countries(Base):
+    __tablename__ = 'country'
+    id = Column(String(2), primary_key=True)
+    name = Column(String(64))

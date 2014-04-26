@@ -7,11 +7,14 @@ from sqlalchemy import create_engine, Column, Integer, Sequence, String, Enum, D
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from models import Event
+from models import Event, Countries
 
 Base = declarative_base()
 engine = create_engine('sqlite:///judotube.db', echo=True)
 create_session = sessionmaker(bind=engine)
+
+engine_c = create_engine('sqlite:///countries.db', echo=True)
+country_session = sessionmaker(bind=engine_c)
 
 app = bottle.Bottle()
 plugin = sqlalchemy.Plugin(
@@ -30,10 +33,12 @@ app.install(plugin)
 @app.route('/')
 @bottle.view('index.html')
 def index():
+    session = country_session()
+    result = session.query(Countries).all()
     if request.GET.get('search','').strip():
         print "fuuuuuuuuu"
         bottle.redirect('/events')
-    return dict()
+    return dict(countries = result)
     #pass
 
 @app.route('/new', method="GET")
@@ -68,13 +73,18 @@ def add_event():
  
         redirect("/")
 
+    session = country_session()
+    result = session.query(Countries).all()
+    return dict(countries = result)
+
 @post('/events')
 @app.route('/events')
 @bottle.view('events.html')
 def events():
+    kwargs = {}
     session = create_session()
-    result = session.query(Event).all()
-    myResultList = [(item.id, item.country, item.name, item.start_date, item.organization_name) for item in result]
+    result = session.query(Event)
+    #myResultList = [(item.id, item.country, item.name, item.start_date, item.organization_name) for item in result]
     print result
     return dict(events=result)
 
@@ -86,6 +96,6 @@ def event(current):
     session = create_session()
     result = session.query(Event).filter_by(id = current)
     print result
-    return dict(events = result)
+    return dict(event = result)
     
 app.run(host='localhost', port=8080, debug=True, reloader=True)

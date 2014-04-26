@@ -5,15 +5,13 @@
   </head>
   <body>
    <h1>Event</h1>
-   %for event in events:
          <tr>
-           <td>{{event.continent}}</td>
-           <td>{{event.country}}</td>
-           <td>{{event.name}}</a></td>
-           <td>{{event.start_date}}</td>
-           <td>{{event.min_age}} - {{event.max_age}}
+           <td>{{event[0].continent}}</td>
+           <td>{{event[0].country}}</td>
+           <td>{{event[0].name}}</a></td>
+           <td>{{event[0].start_date}}</td>
+           <td>{{event[0].min_age}} - {{event[0].max_age}}
          </tr>
-    %end
        </table>
     </div>
   </body>

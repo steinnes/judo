@@ -7,10 +7,19 @@
    <h1>Tournaments</h1>
    <div class="selector">
    	<select id="continents">
-   		<option> Europe </option>
+      <option>Any</option>
+   		<option>Europe</option>
+      <option>N-America</option>
+      <option>S-America</option>
+      <option>Africa</option>
+      <option>Asia</option>
+      <option>Australia</option>
    	</select>
    	<select id="countries">
-   		<option> Iceland </option>
+      <option>Any</option>
+   		%for i in countries:
+        <option> {{i.name}}</option>
+      %end
    	</select>
    	<select id ="date">
    	</select>
