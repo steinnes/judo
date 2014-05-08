@@ -2,11 +2,14 @@
 <html>
   <head>
     <title>Judo Tube</title>
+    <link type="text/css" href="{{ get_url('static', path='css/bootstrap.min.css') }}" rel="stylesheet"> 
   </head>
   <body>
    <h1>Events</h1>
-    <div class="jumbotron">
+    <div class="container">
+      <div class="col-md-12">
        <table class="table table-hover">
+        <div class="row">
          <thead>
            <tr>
              <th>Continent</th>
@@ -16,7 +19,9 @@
              <th>Age group</th>
            </tr>
          </thead>
+       </div>
 %for event in events:
+        <div class"row">
          <tr>
            <td>{{event.continent}}</td>
            <td>{{event.country}}</td>
@@ -24,8 +29,12 @@
            <td>{{event.start_date}}</td>
            <td>{{event.min_age}} - {{event.max_age}}
          </tr>
+       </div>
 %end
        </table>
+     </div>
     </div>
+    <script src="{{ get_url('static', path='js/jquery-1.11.0.min.js') }}"></script>
+    <script src="{{ get_url('static', path='js/bootstrap.min.js') }}"></script>
   </body>
 </html>

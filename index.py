@@ -1,7 +1,7 @@
 import datetime
 
 import bottle
-from bottle import HTTPError, run, request, redirect, post
+from bottle import Bottle, HTTPError, run, request, redirect, post, route, static_file
 from bottle.ext import sqlalchemy
 from sqlalchemy import create_engine, Column, Integer, Sequence, String, Enum, Date
 from sqlalchemy.ext.declarative import declarative_base
@@ -38,7 +38,7 @@ def index():
     if request.GET.get('search','').strip():
         print "fuuuuuuuuu"
         bottle.redirect('/events')
-    return dict(countries = result)
+    return dict(countries = result, get_url=app.get_url)
     #pass
 
 @app.route('/new', method="GET")
@@ -86,7 +86,7 @@ def events():
     result = session.query(Event)
     #myResultList = [(item.id, item.country, item.name, item.start_date, item.organization_name) for item in result]
     print result
-    return dict(events=result)
+    return dict(events=result, get_url=app.get_url)
 
 @app.route('/events/<current:int>')
 @bottle.view('event.html')
@@ -96,6 +96,11 @@ def event(current):
     session = create_session()
     result = session.query(Event).filter_by(id = current)
     print result
-    return dict(event = result)
+    return dict(event = result, get_url = app.get_url)
+
+
+@app.route('/static/:path#.+#', name='static')
+def static(path):
+    return static_file(path, root='static')
     
 app.run(host='localhost', port=8080, debug=True, reloader=True)
