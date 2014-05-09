@@ -29,15 +29,16 @@ plugin = sqlalchemy.Plugin(
 app.install(plugin)
 
 
+kwargs = {} #global filter variable, using it until I find a better way
+
 # Down here we have the views
 @app.route('/')
 @bottle.view('index.html')
 def index():
+    print "index screen"
+    kwargs = {}
     session = country_session()
     result = session.query(Countries).all()
-    if request.GET.get('search','').strip():
-        print "fuuuuuuuuu"
-        bottle.redirect('/events')
     return dict(countries = result, get_url=app.get_url)
     #pass
 
@@ -82,8 +83,15 @@ def add_event():
 @bottle.view('events.html')
 def events():
     kwargs = {}
+    myDict = request.query.decode()
+    if myDict['countries'] != 'Any':
+        kwargs['country'] = myDict['countries']
+    if myDict['continents'] != 'Any':
+        kwargs['continent'] = myDict['continents']
     session = create_session()
     result = session.query(Event)
+    for attr, value in kwargs.items():
+        result = result.filter(getattr(Event, attr).like("%%%s%%" % value))
     #myResultList = [(item.id, item.country, item.name, item.start_date, item.organization_name) for item in result]
     print result
     return dict(events=result, get_url=app.get_url)
