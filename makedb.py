@@ -1,13 +1,12 @@
-#coding=UTF-8
+#encoding=UTF-8
 import datetime
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from models import Event, Base
- 
+from models import Event, Country, Base
+
 engine = create_engine("sqlite:///judotube.db", echo=True)
 
-#----------------------------------------------------------------------
+
 def main():
     """
     Create the database and add data to it
@@ -16,11 +15,18 @@ def main():
     create_session = sessionmaker(bind=engine)
     session = create_session()
     #name, organization_name, event_type, continent,  country, city, start_date, end_date, min_age, max_age, gender, description, attachment
-    session.add_all([
-        Event("reykjavik international", "JFA", "Tournament", "Europe", "Iceland", "reykjavik", datetime.date(2014, 05, 10), datetime.date(2014, 05, 13), 15, 60, "all", "rock this shit", ""),
-        Event("Nordic Open", "JFA", "Tournament",  "Europe", "Iceland", "reykjavik", datetime.date(2014, 06, 10), datetime.date(2014, 05, 13), 15, 60, "all", "rock this shit", "")
-        ])
+    event_1 = Event(name="reykjavik international", organization_name="JFA", event_type="Tournament", continent="Europe", country="Iceland", city="reykjavik", start_date=datetime.date(2014, 05, 10), end_date=datetime.date(2014, 05, 13), min_age=15, max_age=60, gender="all", description="rock this shit")
+    event_2 = Event(name="Nordic Open", organization_name="JFA", event_type="Tournament", continent="Europe", country="Iceland", city="reykjavik", start_date=datetime.date(2014, 06, 10), end_date=datetime.date(2014, 05, 13), min_date=15, max_date=60, gender="all", description="rock this shit")
+    session.add_all([event_1, event_2])
+
+    # add countries
+    country_csv = open('data/countries.csv')
+    for line in country_csv.readlines():
+        iso3166, name = line.strip().split(",")
+        session.add(Country(id=iso3166, name=u'{}'.format(name.decode('utf-8'))))
+
     session.commit()
- 
+
+
 if __name__ == "__main__":
     main()

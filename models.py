@@ -1,10 +1,12 @@
-from bottle.ext import sqlalchemy
-from sqlalchemy import create_engine, Column, Integer, Sequence, String, Enum, Date
+from datetime import datetime
+from sqlalchemy import Column, Integer, String, Enum, Date
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
-engine = create_engine('sqlite:///judotube.db', echo=True)
+
+EVENT_TYPES = ["Tournament", "Training Camp", "Misc"]
+CONTINENTS = ["Europe", "N-America", "S-America", "Africa", "Asia", "Australia"]
+
 
 class Event(Base):
     __tablename__ = 'event'
@@ -12,7 +14,7 @@ class Event(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64))
     organization_name = Column(String(64))
-    event_type = Column(Enum("Tournament", "Training Camp", "Misc"), default="Tournament")
+    event_type = Column(Enum(*EVENT_TYPES), default="Tournament")
     continent = Column(String())
     country = Column(String(16))
     city = Column(String())
@@ -23,34 +25,29 @@ class Event(Base):
     gender = Column(String())
     description = Column(String())
     attachment = Column(String())
-    
+
     def is_finished(self):
         now = datetime.now()
-        return now.date() <= end_date
+        return now.date() <= self.end_date
 
     def is_going_on(self):
         now = datetime.now()
-        return start_date <= now.date() <= end_date
+        return self.start_date <= now.date() <= self.end_date
 
-    def __init__(self, name, organization_name, event_type, continent, country, city, start_date, end_date, min_age, max_age, gender, description, attachment):
-        self.name = name
-        self.organization_name = organization_name
-        self.event_type = event_type
-        self.continent = continent
-        self.country = country
-        self.city = city
-        self.start_date = start_date
-        self.end_date = end_date
-        self.min_age = min_age
-        self.max_age = max_age
-        self.gender = gender
-        self.description = description
-        self.attachment = attachment
+    def __init__(self, *args, **kwargs):
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)
+
+    @classmethod
+    def from_form(cls, form):
+        return cls(**dict([(k, v.data) for k, v in form._fields.iteritems()]))
 
 
-engine_c = create_engine('sqlite:///countries.db', echo=True)
-
-class Countries(Base):
+class Country(Base):
     __tablename__ = 'country'
     id = Column(String(2), primary_key=True)
     name = Column(String(64))
+
+    def __init__(self, **kwargs):
+        for k, v in kwargs.iteritems():
+            setattr(self, k, v)

@@ -5,49 +5,53 @@
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
   </head>
  <body>
+%if errors:
+  <h1>Errors!</h1>
+  %for field, error in errors.items():
+    <h2>{{field}}</h2>
+    <p>{{error}}</p>
+  %end
+%end
    <h1>Register New Event</h1>
-   <form action="/new" method="GET">
-    <label for="name"> Name: 
+   <form action="/new" method="POST">
+    <label for="name"> Name:
      <input type="text" size="20" maxlength="100" name="name">
-    <label for="organization_name"> Organization: 
+    <label for="organization_name"> Organization:
       <input type="text" size="20" maxlength="100" name="organization_name">
-    <label for="event_type"> Event Type: 
+    <label for="event_type"> Event Type:
       <select name="event_type">
         <!-- TODO: GENERATE THESE VALUES DYNAMICALLY! -->
         <option value="Tournament">Tournament</option>
         <option value="Training Camp">Training Camp</option>
         <option value="Misc">Misc</option>
       </select>
-    <label for="continent"> Continent: 
+    <label for="continent"> Continent:
       <select  name="continent">
-        <option>Europe</option>
-        <option>N-America</option>
-        <option>S-America</option>
-        <option>Africa</option>
-        <option>Asia</option>
-        <option>Australia</option>
+        %for c in continents:
+          <option value="{{c}}">{{c}}</option>
+        %end
       <select>
-    <label for"country"> Country: 
+    <label for"country"> Country:
       <select name="country">
-        %for i in countries:
-          <option>{{i.name}}
+        %for country in countries:
+          <option value="{{country.id}}">{{country.name}}</option>
         %end
       </select>
     <label for"city"> City
       <input type="text" size="20" maxlength="100" name="city">
     <label for"min_age"> Minimum Age:
       <input type="number" size="20" maxlength="100" name="min_age">
-    <label for"max_age"> Maximum Age: 
+    <label for"max_age"> Maximum Age:
       <input type="number" size="20" maxlength="100" name="max_age">
-    <label for"gender"> Kyn: 
+    <label for"gender"> Kyn:
       <input type="text" size="20" maxlength="100" name="gender">
-    <label for"description"> Description: 
+    <label for"description"> Description:
       <input type="text" size="20" maxlength="100" name="description">
     <label for"attachment"> Attachment(placeholder)
       <input type="text" size="20" maxlength="100" name="attachment">
-    <label for="start_date"> Start Date: 
+    <label for="start_date"> Start Date:
       <input type="date" name="start_date">
-    <label for="end_date"> End Date: 
+    <label for="end_date"> End Date:
       <input type="date" name="end_date">
     <input type="submit" name="save" value="save">
   </form>
