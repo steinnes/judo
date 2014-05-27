@@ -1,0 +1,9 @@
+.container{max-width:1170px;margin:0 auto}
+.formstd .sel_input,.formstd .txt_input{margin:0 0 20px}
+.formstd .sel_input label,.formstd .txt_input label{width:10em}
+.formstd .txt_input input{width:30%}
+.formstd .sel_input select{width:30%;padding:10px}
+.search{margin-bottom:30px}
+.search .sel_input,.search .txt_input{float:left;margin-right:10px}
+.search .sel_input select,.search .txt_input select{min-width:100px;min-height:30px}
+.search .sel_input input,.search .txt_input input{line-height:1.2}

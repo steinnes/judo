@@ -1,10 +1,5 @@
-<!doctype html>
-<html>
-  <head>
-    <title>New Event</title>
-    <link href="static/css/bootstrap.min.css" rel="stylesheet">
-  </head>
- <body>
+%include header.html get_url = get_url
+
 %if errors:
   <h1>Errors!</h1>
   %for field, error in errors.items():
@@ -12,50 +7,95 @@
     <p>{{error}}</p>
   %end
 %end
+
+  <div class="container">
    <h1>Register New Event</h1>
-   <form action="/new" method="POST">
-    <label for="name"> Name:
-     <input type="text" size="20" maxlength="100" name="name">
-    <label for="organization_name"> Organization:
+   <form class="formstd" action="/new" method="POST">
+
+    <div class="txt_input">
+      <label for="name">Name</label>
+      <input type="text" size="20" maxlength="100" name="name">
+    </div>
+
+    <div class="txt_input">
+      <label for="organization_name"> Organization</label>
       <input type="text" size="20" maxlength="100" name="organization_name">
-    <label for="event_type"> Event Type:
+    </div>
+
+    <div class="sel_input">
+      <label for="event_type"> Event Type</label>
       <select name="event_type">
-        <!-- TODO: GENERATE THESE VALUES DYNAMICALLY! -->
-        <option value="Tournament">Tournament</option>
-        <option value="Training Camp">Training Camp</option>
-        <option value="Misc">Misc</option>
+        %for e in eventtypes:
+          <option>{{e}}</option>
+        %end
       </select>
-    <label for="continent"> Continent:
+      </div>
+
+    <div class="sel_input">
+      <label for="continent">Continent</label>
       <select  name="continent">
         %for c in continents:
           <option value="{{c}}">{{c}}</option>
         %end
       <select>
-    <label for"country"> Country:
+    </div>
+
+    <div class="sel_input">
+      <label for"country"> Country</label>
       <select name="country">
         %for country in countries:
           <option value="{{country.id}}">{{country.name}}</option>
         %end
       </select>
-    <label for"city"> City
+    </div>
+
+    <div class="txt_input">
+      <label for"city">City</label>
       <input type="text" size="20" maxlength="100" name="city">
-    <label for"min_age"> Minimum Age:
+    </div>
+
+    <div class="txt_input">
+      <label for"min_age">Minimum Age</label>
       <input type="number" size="20" maxlength="100" name="min_age">
-    <label for"max_age"> Maximum Age:
+    </div>
+
+    <div class="txt_input">
+      <label for"max_age"> Maximum Age</label>
       <input type="number" size="20" maxlength="100" name="max_age">
-    <label for"gender"> Kyn:
-      <input type="text" size="20" maxlength="100" name="gender">
-    <label for"description"> Description:
+    </div>
+
+    <div class="sel_input">
+      <label for"country">Gender</label>
+      <select name="gender">
+        %for g in genders:
+          <option value="{{g}}">{{g}}</option>
+        %end
+      </select>
+    </div>
+
+    <div class="txt_input">
+      <label for"description"> Description</label>
       <input type="text" size="20" maxlength="100" name="description">
-    <label for"attachment"> Attachment(placeholder)
+    </div>
+
+    <div class="txt_input">
+      <label for"attachment"> Attachment(placeholder)</label>
       <input type="text" size="20" maxlength="100" name="attachment">
-    <label for="start_date"> Start Date:
+    </div>
+
+    <div class="txt_input">
+      <label for="start_date"> Start Date</label>
       <input type="date" name="start_date">
-    <label for="end_date"> End Date:
+    </div>
+
+    <div class="txt_input">
+      <label for="end_date"> End Date</label>
       <input type="date" name="end_date">
+    </div>
+
     <input type="submit" name="save" value="save">
   </form>
-  <script src="static/js/jquery-1.11.0.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-</body>
-</html>
+  </div>
+
+
+%include footer.html get_url = get_url

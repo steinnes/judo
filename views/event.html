@@ -1,11 +1,5 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Judo Tube</title>
-    <link type="text/css" href="{{ get_url('static', path='css/bootstrap.min.css') }}" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
+%include header.html get_url = get_url
+
    <h1>{{event.name}}</h1>
         <table class="table">
          <tr>
@@ -21,7 +15,5 @@
           </tr>
        </table>
     </div>
-    <script type"text/javascript" src="{{ get_url('static', path='js/jquery-1.11.0.min.js') }}"></script>
-    <script src="{{ get_url('static', path='js/bootstrap.min.js') }}"></script>
-  </body>
-</html>
+
+%include footer.html get_url = get_url

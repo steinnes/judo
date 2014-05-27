@@ -1,34 +1,72 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Judo Tube</title>
-    <link href="{{ get_url('static', path='css/bootstrap.min.css') }}" rel="stylesheet">
-  </head>
-  <body>
-   <h1>Tournaments</h1>
-   <form action="/events" methon="post">
-   <div class="selector">
-   	<select id="continents" name="continents">
-      <option>Any</option>
-   		<option>Europe</option>
-      <option>N-America</option>
-      <option>S-America</option>
-      <option>Africa</option>
-      <option>Asia</option>
-      <option>Australia</option>
-   	</select>
-   	<select id="countries" name="countries">
-      <option>Any</option>
-   		%for i in countries:
-        <option> {{i.name}}</option>
-      %end
-   	</select>
-   	<select id ="date" name="date">
-   	</select>
-   	<select id ="agroup" name="agroup">
-   	</select>
-   </div>
-   <input type="submit" id="button" value="search" >
-  </form>
-  </body>
-</html>
+%include header.html
+
+  <div class="search">
+    <h1>Search tournaments</h1>
+    <form class="search" action="/events" methon="post">
+
+    <div class="sel_input">
+     	<select id="continents" name="continents">
+        <option>Any</option>
+     		<option>Europe</option>
+        <option>N-America</option>
+        <option>S-America</option>
+        <option>Africa</option>
+        <option>Asia</option>
+        <option>Australia</option>
+     	</select>
+    </div>
+
+    <div class="sel_input">
+     	<select id="countries" name="countries">
+        <option>Any</option>
+     		%for i in countries:
+          <option> {{i.name}}</option>
+        %end
+     	</select>
+    </div>
+
+    <div class="txt_input">
+      <label for="date">Date</label>
+      <input type="date" name="date">
+    </div>
+
+    <div class="sel_input">
+     	<select id ="agroup" name="agroup">
+        <option value="">Select age</option>
+     	</select>
+    </div>
+
+    <button type="submit">Search</button>
+    </form>
+  </div>
+
+
+  <div class="tournaments">
+    <h2>Upcoming Events</h2>
+
+    <table class="table table-hover">
+
+     <thead>
+       <tr>
+         <th>Continent</th>
+         <th>Country</th>
+         <th>Name</th>
+         <th>Date</th>
+         <th>Age group</th>
+       </tr>
+     </thead>
+
+    %for event in events:
+     <tr>
+       <td>{{event.continent}}</td>
+       <td>{{event.country}}</td>
+       <td><a href="/events/{{event.id}}">{{event.name}}</a></td>
+       <td>{{event.start_date}}</td>
+       <td>{{event.min_age}} - {{event.max_age}}
+     </tr>
+    %end
+    </table>
+  </div>
+
+
+%include footer.html
