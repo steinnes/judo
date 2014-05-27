@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from models import Event, Country, CONTINENTS
+from models import Event, Country, CONTINENTS, EVENT_TYPES, GENDERS
 
 from forms import EventForm
 
@@ -30,11 +30,17 @@ app.install(plugin)
 @app.route('/')
 @bottle.view('index.html')
 def index():
-    print "index screen"
+    #Get countries and print them into the select box
     session = create_session()
     result = session.query(Country).all()
-    return dict(countries=result, get_url=app.get_url)
-    #pass
+
+    #Let's also get upcoming tournaments
+    matching_events = session.query(Event).order_by(Event.start_date).limit(10)
+    e = list(matching_events)
+
+    return dict(countries=result,
+                events=e,
+                get_url=app.get_url)
 
 
 @app.route('/new', method="POST")
@@ -47,7 +53,7 @@ def add_event():
     form.continent.choices = _dup(['Europe', 'USA', 'Asia'])
     countries = session.query(Country)
     form.country.choices = [(c.id, c.name) for c in countries.all()]
-    form.gender.choices = _dup(["male", "female", "all"])
+    #form.gender.choices = _dup(["male", "female", "all"])
 
     if form.validate():
         session = create_session()
@@ -56,7 +62,7 @@ def add_event():
         session.commit()
         redirect("/")
     else:
-        #print "gender=", form.gender
+        print "gender=", form.gender
         print dict(request.forms)
         print form.errors
         print type(form.errors)
@@ -71,7 +77,10 @@ def new(errors=None):
     return dict(
         countries=session.query(Country).all(),
         continents=CONTINENTS,
-        errors=errors)
+        eventtypes=EVENT_TYPES,
+        genders=GENDERS,
+        errors=errors,
+        get_url=app.get_url)
 
 
 @post('/events')

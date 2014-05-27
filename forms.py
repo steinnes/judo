@@ -8,7 +8,7 @@ from wtforms import (
     validators
 )
 
-from models import EVENT_TYPES
+from models import EVENT_TYPES, GENDERS
 
 
 class EventForm(Form):
@@ -23,6 +23,7 @@ class EventForm(Form):
     end_date = DateField(u'End Date', validators=[validators.required()])
     min_age = IntegerField()
     max_age = IntegerField()
-    gender = SelectField(validators=[validators.required()])
+    gender = SelectField(choices=[(i, i) for i in GENDERS],
+        validators=[validators.required()])
     description = StringField()
     attachment = FileField()

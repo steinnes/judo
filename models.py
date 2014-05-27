@@ -6,6 +6,7 @@ Base = declarative_base()
 
 EVENT_TYPES = ["Tournament", "Training Camp", "Misc"]
 CONTINENTS = ["Europe", "N-America", "S-America", "Africa", "Asia", "Australia"]
+GENDERS = ["male", "female", "all"]
 
 
 class Event(Base):
