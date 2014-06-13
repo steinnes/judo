@@ -19,11 +19,10 @@ def main():
     event_2 = Event(name="Nordic Open", organization_name="JFA", event_type="Tournament", continent="Europe", country="Iceland", city="reykjavik", start_date=datetime.date(2014, 06, 10), end_date=datetime.date(2014, 05, 13), min_date=15, max_date=60, gender="all", description="rock this shit")
     session.add_all([event_1, event_2])
 
-    # add countries
     country_csv = open('data/countries.csv')
     for line in country_csv.readlines():
-        iso3166, name = line.strip().split(",")
-        session.add(Country(id=iso3166, name=u'{}'.format(name.decode('utf-8'))))
+        identity, continent, name, capital, iso31662, iso31663, ioc, tld, currency, phone, utc, name_de, capital_de = line.strip().split(";")
+        session.add(Country(id=iso31663, continent=continent, name=u'{}'.format(name.decode('utf-8'))))
 
     session.commit()
 

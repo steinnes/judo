@@ -46,8 +46,9 @@ class Event(Base):
 
 class Country(Base):
     __tablename__ = 'country'
-    id = Column(String(2), primary_key=True)
+    id = Column(String(3), primary_key=True)
     name = Column(String(64))
+    continent = Column(Integer)
 
     def __init__(self, **kwargs):
         for k, v in kwargs.iteritems():

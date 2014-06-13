@@ -8,6 +8,8 @@
 /*** forms ***/
 .formstd {
     .txt_input,
+    .txta_input,
+    .file_input,
     .sel_input {
         margin: 0 0 20px;
 
@@ -16,9 +18,13 @@
         }
     }
 
+    .file_input,
+    .txta_input,
     .txt_input {
+        textarea,
         input {
             width: 30%;
+            display: inline-block;
         }
     }
 
@@ -48,6 +54,10 @@
         }
     }
 
+    .hideopts {
+        display: none;
+    }
+
     // .sel_input {
     //     overflow: hidden;
     //     background: #ddd;
@@ -72,4 +82,10 @@
     //     padding: 5px 10px;
     //     border: 1px solid #317CBD;
     // }
+}
+
+
+/*** new ***/
+ul.countries {
+    display: none;
 }

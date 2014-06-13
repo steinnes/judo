@@ -1,9 +1,10 @@
 .container{max-width:1170px;margin:0 auto}
-.formstd .sel_input,.formstd .txt_input{margin:0 0 20px}
-.formstd .sel_input label,.formstd .txt_input label{width:10em}
-.formstd .txt_input input{width:30%}
+.formstd .file_input,.formstd .sel_input,.formstd .txt_input,.formstd .txta_input{margin:0 0 20px}
+.formstd .file_input label,.formstd .sel_input label,.formstd .txt_input label,.formstd .txta_input label{width:10em}
+.formstd .file_input input,.formstd .file_input textarea,.formstd .txt_input input,.formstd .txt_input textarea,.formstd .txta_input input,.formstd .txta_input textarea{width:30%;display:inline-block}
 .formstd .sel_input select{width:30%;padding:10px}
 .search{margin-bottom:30px}
 .search .sel_input,.search .txt_input{float:left;margin-right:10px}
 .search .sel_input select,.search .txt_input select{min-width:100px;min-height:30px}
 .search .sel_input input,.search .txt_input input{line-height:1.2}
+.search .hideopts,ul.countries{display:none}

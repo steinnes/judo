@@ -1,4 +1,5 @@
 import bottle
+from datetime import datetime, date
 from bottle import request, redirect, post, static_file, template
 from bottle.ext import sqlalchemy
 from sqlalchemy import create_engine
@@ -35,11 +36,16 @@ def index():
     result = session.query(Country).all()
 
     #Let's also get upcoming tournaments
-    matching_events = session.query(Event).order_by(Event.start_date).limit(10)
+    matching_events = session.query(Event).\
+                        filter(Event.end_date > datetime.now()).\
+                        order_by(Event.start_date).\
+                        limit(10)
     e = list(matching_events)
 
     return dict(countries=result,
+                continents=CONTINENTS,
                 events=e,
+                year = date.today().year,
                 get_url=app.get_url)
 
 
@@ -50,9 +56,9 @@ def add_event():
 
     session = create_session()
     form = EventForm(request.forms)
-    form.continent.choices = _dup(['Europe', 'USA', 'Asia'])
+    form.continent.choices = _dup(CONTINENTS)
     countries = session.query(Country)
-    form.country.choices = [(c.id, c.name) for c in countries.all()]
+    #form.country.choices = [(c.id, c.name) for c in countries.all()]
     #form.gender.choices = _dup(["male", "female", "all"])
 
     if form.validate():
@@ -94,14 +100,13 @@ def events():
     if form['countries'] != 'Any':
         filters['country'] = form['countries']
     if form['continents'] != 'Any':
-        filters['continent'] = form['continents']
+        filters['continent'] = CONTINENTS[int(form['continents'])]
     del form['countries']
     del form['continents']
 
     session = create_session()
-    matching_events = session.query(Event).filter_by(**filters)
+    matching_events = session.query(Event).filter_by(**filters).filter(Event.min_age >= int(form['min_age'])).filter(Event.max_age <= int(form['max_age']))
     e = list(matching_events)
-    print e
     return dict(events=e, get_url=app.get_url)
 
 

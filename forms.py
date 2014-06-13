@@ -17,7 +17,7 @@ class EventForm(Form):
     event_type = SelectField(u'Event Type', choices=[(i, i) for i in EVENT_TYPES],
         validators=[validators.required()])
     continent = SelectField(u'Continent', validators=[validators.required()])
-    country = SelectField(u'Country', validators=[validators.required()])
+    country = StringField(u'Country', validators=[validators.required()])
     city = StringField(u'City', validators=[validators.required()])
     start_date = DateField(u'Start Date', validators=[validators.required()])
     end_date = DateField(u'End Date', validators=[validators.required()])
