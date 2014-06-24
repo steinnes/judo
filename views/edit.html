@@ -10,16 +10,16 @@
 
   <div class="container">
    <h1>Register New Event</h1>
-   <form class="formstd" action="/new" method="POST">
+   <form class="formstd" action="/edit/{{event.id}}" method="POST">
 
     <div class="txt_input">
       <label for="name">Name</label>
-      <input type="text" size="20" maxlength="100" name="name">
+      <input type="text" size="20" maxlength="100" name="name" value="{{event.name}}">
     </div>
 
     <div class="txt_input">
       <label for="organization_name"> Organization</label>
-      <input type="text" size="20" maxlength="100" name="organization_name">
+      <input type="text" size="20" maxlength="100" name="organization_name"  value="{{event.organization_name}}">
     </div>
 
     <div class="sel_input">
@@ -52,7 +52,7 @@
 
     <div class="txt_input">
       <label for="country">Country:</label>
-      <input id="country" type="text" name="country" value="" />
+      <input id="country" type="text" name="country"  value="{{event.country}}" />
 
       <ul class="countries">
         %for country in countries:
@@ -63,51 +63,52 @@
 
     <div class="txt_input">
       <label for"city">City</label>
-      <input type="text" size="20" maxlength="100" name="city">
+      <input type="text" size="20" maxlength="100" name="city" value="{{event.city}}" />
     </div>
 
     <div class="txt_input">
       <label for="location">Location:</label>
-      <input id="location" type="text" name="location" value="" />
+      <input id="location" type="text" name="location" value="{{event.location}}" />
     </div>
 
     <div class="txt_input">
       <label for"min_age">Minimum Age</label>
-      <input type="number" size="20" maxlength="100" name="min_age">
+      <input type="number" size="20" maxlength="100" name="min_age" value="{{event.min_age}}" />
     </div>
 
     <div class="txt_input">
       <label for"max_age"> Maximum Age</label>
-      <input type="number" size="20" maxlength="100" name="max_age">
+      <input type="number" size="20" maxlength="100" name="max_age" value="{{event.max_age}}" />
     </div>
 
     <div class="sel_input">
       <label for"country">Gender</label>
       <select name="gender">
         %for g in genders:
-          <option value="{{g}}">{{g}}</option>
+          <option %if g == event.gender: selected end% value="{{g}}">{{g}}</option>
+          %end
         %end
       </select>
     </div>
 
     <div class="txta_input">
       <label for"description"> Description</label>
-      <textarea name="description"></textarea>
+      <textarea name="description">{{event.description}}</textarea>
     </div>
 
     <div class="file_input">
       <label for="attachment">Attachment</label>
-      <input id="attachment" type="file" name="file" value="" />
+      <input id="attachment" type="file" name="file" />
     </div>
 
     <div class="txt_input">
       <label for="start_date">Start Date</label>
-      <input type="text" name="start_date" id="start_date">
+      <input type="text" name="start_date" id="start_date" value="{{event.start_date}}" />
     </div>
 
     <div class="txt_input">
       <label for="end_date"> End Date</label>
-      <input type="text" name="end_date" id="end_date">
+      <input type="text" name="end_date" id="end_date" value="{{event.end_date}}" />
     </div>
 
     <input type="submit" name="save" value="save">

@@ -7,4 +7,15 @@
 .search .sel_input,.search .txt_input{float:left;margin-right:10px}
 .search .sel_input select,.search .txt_input select{min-width:100px;min-height:30px}
 .search .sel_input input,.search .txt_input input{line-height:1.2}
-.search .hideopts,ul.countries{display:none}
+.search .hideopts{display:none}
+h1,h2{margin-bottom:20px}
+div.search{margin-bottom:40px;border-bottom:1px solid #eee}
+.tournaments{min-height:400px}
+ul.countries{display:none}
+.edesc{clear:both}
+#map-canvas{height:250px;max-width:750px;min-width:450px;float:right;margin:0 0 20px 20px}
+.nav{margin:20px 0 0;border-top:1px solid #eee;border-bottom:1px solid #eee;font-size:1.28571429em}
+.nav ul{list-style:none;padding:20px 0;text-align:center;margin:0}
+.nav li{display:inline-block;margin-right:-.3em}
+.nav li a{padding:1em}
+.footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee}

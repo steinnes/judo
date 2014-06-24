@@ -27,3 +27,4 @@ class EventForm(Form):
         validators=[validators.required()])
     description = StringField()
     attachment = FileField()
+    location = StringField(u'Location', validators=[validators.required()])

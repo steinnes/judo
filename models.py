@@ -26,6 +26,7 @@ class Event(Base):
     gender = Column(String())
     description = Column(String())
     attachment = Column(String())
+    location = Column(String()) #strengur fyrir heimilisfang
 
     def is_finished(self):
         now = datetime.now()
@@ -38,6 +39,10 @@ class Event(Base):
     def __init__(self, *args, **kwargs):
         for k, v in kwargs.iteritems():
             setattr(self, k, v)
+
+    def update(self, form):
+        for k, v in form._fields.iteritems():
+            setattr(self, k, v.data)
 
     @classmethod
     def from_form(cls, form):

@@ -1,19 +1,25 @@
 %include header.html get_url = get_url
 
    <h1>{{event.name}}</h1>
-        <table class="table">
-         <tr>
-           <td><label> Continent : </label> {{event.continent}}</td>
-           <td><label> Country : </label>{{event.country}}</td>
-           <td><label> Start Date : </label>{{event.start_date}}</td>
-           <td><label> End Date : </label>{{event.end_date}}</td>
-         </tr>
-         <tr>
-          <td><label> Type : </label> {{event.event_type}}</td>
-          <td><label> Age Group : </label> {{event.min_age}} - {{event.max_age}}</td>
-          <td><label> Contact Info : </label> To be implemented</td>
-          </tr>
-       </table>
-    </div>
+
+   <div id="map-canvas">
+   </div>
+
+   <ul>
+    <li>Continent: {{event.continent}}</li>
+    <li>Country: <span class="country">{{event.country}}</span></li>
+    <li>City: <span class="city">{{event.city}}</span></li>
+    <li>Address: <span class="address">{{event.location}}</span></li>
+    <li>Start Date:{{event.start_date}}</li>
+    <li>End Date: {{event.end_date}}</li>
+    <li>Type: {{event.event_type}}</li>
+    <li>Age Group: {{event.min_age}} - {{event.max_age}}</li>
+   </ul>
+
+   <div class="edesc">
+    <h3>Description:</h3>
+    <p>{{event.description}}</p>
+   </div>
+
 
 %include footer.html get_url = get_url
