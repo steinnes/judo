@@ -1,6 +1,6 @@
 import bottle
 from datetime import datetime, date
-from bottle import request, redirect, post, static_file, template
+from bottle import request, redirect, post, static_file
 from bottle.ext import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
@@ -31,21 +31,21 @@ app.install(plugin)
 @app.route('/')
 @bottle.view('index.html')
 def index():
-    #Get countries and print them into the select box
+    # Get countries and print them into the select box
     session = create_session()
     result = session.query(Country).all()
 
-    #Let's also get upcoming tournaments
+    # Let's also get upcoming tournaments
     matching_events = session.query(Event).\
-                        filter(Event.end_date > datetime.now()).\
-                        order_by(Event.start_date).\
-                        limit(10)
+        filter(Event.end_date > datetime.now()).\
+        order_by(Event.start_date).\
+        limit(10)
     e = list(matching_events)
 
     return dict(countries=result,
                 continents=CONTINENTS,
                 events=e,
-                year = date.today().year,
+                year=date.today().year,
                 get_url=app.get_url)
 
 
@@ -57,9 +57,9 @@ def add_event():
     session = create_session()
     form = EventForm(request.forms)
     form.continent.choices = _dup(CONTINENTS)
-    countries = session.query(Country)
-    #form.country.choices = [(c.id, c.name) for c in countries.all()]
-    #form.gender.choices = _dup(["male", "female", "all"])
+    # countries = session.query(Country)  # XXX: why is countries never used?
+    # form.country.choices = [(c.id, c.name) for c in countries.all()]
+    # form.gender.choices = _dup(["male", "female", "all"])
 
     if form.validate():
         session = create_session()
@@ -96,7 +96,6 @@ def events():
     form = request.query.decode('utf-8')
     # XXX: make WTForm for this and validate!
 
-
     filters = {}
     if form['countries'] != 'Any':
         filters['country'] = form['countries']
@@ -107,14 +106,14 @@ def events():
 
     session = create_session()
     matching_events = session.query(Event).filter_by(**filters).\
-                        filter(Event.end_date > datetime.now()).\
-                        filter(Event.start_date >= datetime.now()).\
-                        order_by(Event.start_date)
+        filter(Event.end_date > datetime.now()).\
+        filter(Event.start_date >= datetime.now()).\
+        order_by(Event.start_date)
 
     if form['age']:
         matching_events = matching_events.\
-                            filter(form['age'] <= Event.max_age).\
-                            filter(form['age'] >= Event.min_age)
+            filter(form['age'] <= Event.max_age).\
+            filter(form['age'] >= Event.min_age)
 
     e = list(matching_events)
     return dict(events=e, get_url=app.get_url)
@@ -127,7 +126,7 @@ def event(current):
     print type(current) is int
     session = create_session()
     result = session.query(Event).get(current)
-    #result = session.query(Event).filter_by(id=current)
+    # result = session.query(Event).filter_by(id=current)
     print result
     return dict(event=result, get_url=app.get_url)
 
@@ -150,6 +149,7 @@ def delete(id):
     session.commit()
     redirect("/admin")
 
+
 @app.route('/edit/<id:int>')
 @bottle.view('edit.html')
 def edit(id, errors=None):
@@ -164,6 +164,7 @@ def edit(id, errors=None):
                 event=e,
                 get_url=app.get_url)
 
+
 @app.route('/edit/<id:int>', method="POST")
 def edit_event(id):
     def _dup(l):
@@ -172,7 +173,7 @@ def edit_event(id):
     session = create_session()
     form = EventForm(request.forms)
     form.continent.choices = _dup(CONTINENTS)
-    countries = session.query(Country)
+    # countries = session.query(Country)  # XXX: why is countries never used?
 
     if form.validate():
         session = create_session()
@@ -187,15 +188,18 @@ def edit_event(id):
         print type(form.errors)
         return new(errors=form.errors)
 
+
 @app.route('/about')
 @bottle.view('about.html')
 def about():
     return dict(get_url=app.get_url)
 
+
 @app.route('/contact')
 @bottle.view('contact.html')
 def contact():
     return dict(get_url=app.get_url)
+
 
 @app.route('/static/:path#.+#', name='static')
 def static(path):

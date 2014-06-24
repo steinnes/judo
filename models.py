@@ -26,7 +26,7 @@ class Event(Base):
     gender = Column(String())
     description = Column(String())
     attachment = Column(String())
-    location = Column(String()) #strengur fyrir heimilisfang
+    location = Column(String())  # strengur fyrir heimilisfang <-- why not call it address?
 
     def is_finished(self):
         now = datetime.now()
