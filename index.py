@@ -201,4 +201,5 @@ def contact():
 def static(path):
     return static_file(path, root='static')
 
-app.run(host='localhost', port=8080, debug=True, reloader=True)
+if __name__ == "__main__":
+    app.run(host='localhost', port=8080, debug=True, reloader=True)
