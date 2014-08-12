@@ -28,13 +28,12 @@
       <input type="text" name="date" id="searchdate">
     </div-->
 
+
     <div class="sel_input">
       <select id ="age" name="age">
         <option value="">Select your age</option>
-        %years = range(year - 70, year - 9)
-        %for i in reversed(years):
-          <option value="{{year-i}}">{{i}} - ({{year-i}})</option>
-        %end
+        <option value="{{year-30}}">Veterans ({{year-30}} and before)</option>
+        <option value="{{year-15}}">Senior ({{year-15}} and before)</option>
       </select>
     </div>
 

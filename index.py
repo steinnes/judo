@@ -1,14 +1,18 @@
 import bottle
+import hashlib
+import time
 from datetime import datetime, date
-from bottle import request, redirect, post, static_file
+from bottle import request, response, redirect, post, static_file
 from bottle.ext import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from models import Event, Country, CONTINENTS, EVENT_TYPES, GENDERS
+from models import Event, Country, Attachment, CONTINENTS, EVENT_TYPES, GENDERS
 
 from forms import EventForm
+
+from utils import save_file, scan_attachments, InvalidFileUpload
 
 Base = declarative_base()
 engine = create_engine('sqlite:///judotube.db', echo=True)
@@ -55,7 +59,7 @@ def add_event():
         return [(i, i) for i in l]
 
     session = create_session()
-    form = EventForm(request.forms)
+    form = EventForm(request.forms.decode())
     form.continent.choices = _dup(CONTINENTS)
     # countries = session.query(Country)  # XXX: why is countries never used?
     # form.country.choices = [(c.id, c.name) for c in countries.all()]
@@ -64,15 +68,23 @@ def add_event():
     if form.validate():
         session = create_session()
         new_task = Event.from_form(form)
-        session.add(new_task)
-        session.commit()
-        redirect("/")
-    else:
-        print "gender=", form.gender
-        print dict(request.forms)
-        print form.errors
-        print type(form.errors)
-        return new(errors=form.errors)
+        try:
+            for attachment in scan_attachments(request.files):
+                print "saving attachment: ", attachment, attachment.filename
+                new_task.attachments.append(Attachment(
+                    file_path=save_file(attachment),
+                    file_name=attachment.filename,
+                    file_type=attachment.content_type))
+            session.add(new_task)
+            session.commit()
+            return redirect("/")
+        except InvalidFileUpload as e:
+            form.errors['attachment'] = e.message
+
+    print dict(request.forms)
+    print form.errors
+    print type(form.errors)
+    return new(errors=form.errors)
 
 
 @app.route('/new', method="GET")
@@ -204,6 +216,17 @@ def contact():
 @app.route('/static/:path#.+#', name='static')
 def static(path):
     return static_file(path, root='static')
+
+@app.route('/attachment/:attachment_id')
+def attachment(attachment_id):
+    session = create_session()
+    attachment = session.query(Attachment).get(attachment_id)
+    file_data = open(attachment.file_path).read()
+    response.content_type = attachment.file_type
+    response.add_header('Content-Disposition', 'attachment; filename="{}"'.format(attachment.file_name))
+    response.add_header('Content-Length', str(len(file_data)))
+    return file_data
+
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080, debug=True, reloader=True)
