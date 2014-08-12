@@ -6,7 +6,7 @@
         var map;
         var location;
 
-        if( google && $('body').find('#map-canvas').length && $('body').find('li .address').text().length )
+        if( google && $('body').find('#map-canvas').length )
         {
           //Initialize map
           geocoder = new google.maps.Geocoder();
@@ -60,6 +60,24 @@
     $('#country').autocomplete({
         source: countries
     });
+
+    var attachment = $('.file_input'),
+        no_attachments = attachment.length;
+        // attachmentClone = attachment.clone();
+
+    $('<a class="add_attachment" href="#">+</a>').insertAfter(attachment);
+
+    $('body').on('click', '.add_attachment', function (e) {
+        e.preventDefault();
+
+        var link = $(this);
+        var attachmentClone = attachment.clone(),
+            name = attachment.find('input').attr('name').split('_')[0] + "_" + (no_attachments++);
+
+        attachmentClone.find('input').attr('name', name);
+
+        attachmentClone.insertBefore( link );
+      });
 
 
     //Datepicker stuff

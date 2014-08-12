@@ -28,13 +28,19 @@
       <input type="text" name="date" id="searchdate">
     </div-->
 
+
+Veterans  (born 1984 and before)
+Senior    (born 1999 and before)
+U23   (born 1992-1999)
+U21   (born 1994-1999)
+Junior    (born 1994 - 1999)15 to 20 year old
+Cadet   (born 1997. 1998 & 1999)15, 16 & 17 years old
+
     <div class="sel_input">
       <select id ="age" name="age">
         <option value="">Select your age</option>
-        %years = range(year - 70, year - 9)
-        %for i in reversed(years):
-          <option value="{{year-i}}">{{i}} - ({{year-i}})</option>
-        %end
+        <option value="{{year-30}}">Veterans ({{year-30}} and before)</option>
+        <option value="{{year-15}}">Senior ({{year-15}} and before)</option>
       </select>
     </div>
 

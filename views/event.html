@@ -6,20 +6,33 @@
    </div>
 
    <ul>
-    <li>Continent: {{event.continent}}</li>
     <li>Country: <span class="country">{{event.country}}</span></li>
     <li>City: <span class="city">{{event.city}}</span></li>
-    <li>Address: <span class="address">{{event.location}}</span></li>
+    <li>Address: <span class="address">{{event.address}}</span></li>
     <li>Start Date:{{event.start_date}}</li>
     <li>End Date: {{event.end_date}}</li>
     <li>Type: {{event.event_type}}</li>
     <li>Age Group: {{event.min_age}} - {{event.max_age}}</li>
    </ul>
 
+   <h3>Organization</h3>
+   <ul>
+    <li>Organization: {{event.organization_name}}</li>
+    <li><a href="{{event.webpage}}" target="_blank">{{event.pretty_webpage}}</a></li>
+   </ul>
+
    <div class="edesc">
     <h3>Description:</h3>
     <p>{{event.description}}</p>
    </div>
+
+   <h3>Files</h3>
+   <ul>
+    %for attachment in event.attachments:
+      <li><a href="/attachment/{{attachment.id}}">{{attachment.file_name}}</a></li>
+    %end
+   </ul>
+
 
 
 %include footer.html get_url = get_url

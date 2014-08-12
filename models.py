@@ -1,5 +1,6 @@
 from datetime import datetime
-from sqlalchemy import Column, Integer, String, Enum, Date
+from sqlalchemy import Column, Integer, String, Enum, Date, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()
@@ -25,8 +26,9 @@ class Event(Base):
     max_age = Column(Integer)
     gender = Column(String())
     description = Column(String())
-    attachment = Column(String())
-    location = Column(String())  # strengur fyrir heimilisfang <-- why not call it address?
+    attachments = relationship("Attachment", lazy=False)
+    address = Column(String())
+    webpage = Column(String())
 
     def is_finished(self):
         now = datetime.now()
@@ -35,6 +37,10 @@ class Event(Base):
     def is_going_on(self):
         now = datetime.now()
         return self.start_date <= now.date() <= self.end_date
+
+    @property
+    def pretty_webpage(self):
+        return self.webpage.replace("http://", "")[:25]
 
     def __init__(self, *args, **kwargs):
         for k, v in kwargs.iteritems():
@@ -58,3 +64,14 @@ class Country(Base):
     def __init__(self, **kwargs):
         for k, v in kwargs.iteritems():
             setattr(self, k, v)
+
+
+class Attachment(Base):
+    __tablename__ = 'attachments'
+    __table_args__ = {'sqlite_autoincrement': True}
+    id = Column(Integer, primary_key=True)
+    event_id = Column(Integer, ForeignKey('event.id'))
+    file_path = Column(String())
+    file_type = Column(String())
+    file_name = Column(String())
+
