@@ -3,3 +3,4 @@ bottle-sqlalchemy==0.4.1
 SQLAlchemy==0.9.3
 WTForms==2.0
 flake8==2.1.0
+click==3.0
