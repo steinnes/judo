@@ -61,9 +61,10 @@
         source: countries
     });
 
+
+    //Append more file attachments fields
     var attachment = $('.file_input'),
         no_attachments = attachment.length;
-        // attachmentClone = attachment.clone();
 
     $('<a class="add_attachment" href="#">+</a>').insertAfter(attachment);
 
