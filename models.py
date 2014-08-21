@@ -40,7 +40,13 @@ class Event(Base):
 
     @property
     def pretty_webpage(self):
-        return self.webpage.replace("http://", "")[:25]
+        ret = ""
+        if self.webpage:
+            ret = self.webpage.replace("http://", "")
+            if len(ret) > 29:
+                ret = "{}...".format(ret[:25])
+        return ret
+
 
     def __init__(self, *args, **kwargs):
         for k, v in kwargs.iteritems():
