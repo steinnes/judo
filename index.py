@@ -4,17 +4,16 @@ import time
 from datetime import datetime, date
 from bottle import request, response, redirect, post, static_file
 from bottle.ext import sqlalchemy
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from models import Event, Country, Attachment, CONTINENTS, EVENT_TYPES, GENDERS
+from models import Base, Event, Country, Attachment, CONTINENTS, EVENT_TYPES, GENDERS
 
 from forms import EventForm
 
 from utils import save_file, scan_attachments, InvalidFileUpload
 
-Base = declarative_base()
 engine = create_engine('sqlite:///judotube.db', echo=True)
 create_session = sessionmaker(bind=engine)
 
@@ -230,3 +229,11 @@ def attachment(attachment_id):
 
 if __name__ == "__main__":
     app.run(host='localhost', port=8080, debug=True, reloader=True)
+
+
+def showsql(table=None):
+    """Outputs the SQL schema (table structure) as defined in models.py"""
+    def dump(sql, *multiparams, **params):
+        print sql.compile(dialect=engine.dialect)
+    engine = create_engine("sqlite:///judotube.db", strategy='mock', executor=dump)
+    Base.metadata.create_all(engine, checkfirst=False)

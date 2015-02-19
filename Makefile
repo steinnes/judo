@@ -3,3 +3,8 @@ PROJECT_DIRS := $(shell find . -type d |cut -d/ -f1| grep -v venv|grep -v test|g
 lint: $(PROJECT_DIRS)
 	tests/lint_folders.sh $^
 	@echo "linting complete"
+
+bootstrap:
+	virtualenv venv
+	venv/bin/pip install -r requirements.txt
+	venv/bin/python manage.py popdb
