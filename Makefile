@@ -9,3 +9,6 @@ bootstrap:
 	venv/bin/pip install -r requirements.txt
 	venv/bin/python manage.py initdb
 	venv/bin/python manage.py popdb
+
+server:
+	venv/bin/python index.py
