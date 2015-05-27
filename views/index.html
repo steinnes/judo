@@ -4,59 +4,30 @@
     <h1>Search tournaments</h1>
     <form class="search" action="/events" methon="post">
 
-    <div class="sel_input">
-     	<select id="continents" name="continents">
-        <option>Any</option>
-        %for id, c in enumerate(continents):
-          <option value="{{id}}">{{c}}</option>
-        %end
-     	</select>
-    </div>
-
-    <div class="sel_input">
-      <label for="countries"></label>
-     	<select id="countries" name="countries">
-        <option>Any</option>
-     		%for c in countries:
-          <option data-continent="{{c.continent}}">{{c.name}}</option>
-        %end
-     	</select>
-    </div>
-
     <!--div class="txt_input">
       <label for="date">Date</label>
       <input type="text" name="date" id="searchdate">
     </div-->
     <div class="sel_input">
+       <label for="countries">Country (DROP DOWN TBD):</label>
+       <input id="countries" type="text" name="countries" value="" />
+      <ul class="countries">
+        %for c in countries:
+          <li data-continent="{{c.continent}}" data-value="{{c.id}}">{{c.name}}</li>
+        %end
+      </ul>
+     </div>
+    <div class="sel_input">
+      <label for="age">Age</label>
       <select id ="age" name="age">
         <option value="">Select your age</option>
         <option value="{{year-30}}">Veterans ({{year-30}} and before)</option>
         <option value="{{year-15}}">Senior ({{year-15}} and before)</option>
       </select>
     </div>
-<!--     <div class="sel_input">
-      <select id ="min_age" name="min_age">
-        <option value="">Min age</option>
-        %years = range(year - 70, year - 9)
-        %for i in reversed(years):
-          <option value="{{year-i}}">{{i}} - ({{year-i}})</option>
-        %end
-      </select>
-    </div>
-
-    <div class="sel_input">
-     	<select id ="max_age" name="max_age">
-        <option value="">Max age</option>
-        %for i in years:
-          <option value="{{year-i}}">{{i}} - ({{year-i}})</option>
-        %end
-     	</select>
-    </div> -->
-
     <button type="submit">Search</button>
     </form>
   </div>
-
 
   <div class="tournaments">
     <h2>Upcoming Events</h2>

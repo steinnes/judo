@@ -1,6 +1,6 @@
 %include header.html get_url = get_url
 
-  <h1>Events</h1>
+  <h1>Events - <a class="newevent" href="/new">Make new event</a></h1>
    <table class="table table-hover">
 
      <thead>
@@ -23,7 +23,7 @@
        <td>{{event.start_date}}</td>
        <td>{{event.min_age}} - {{event.max_age}}</td>
        <td><a href="/edit/{{event.id}}">edit</a></td>
-       <td><a href="/delete/{{event.id}}">delete</a></td>
+       <td><a class="delete" href="/delete/{{event.id}}">delete</a></td>
      </tr>
     %end
    </table>
