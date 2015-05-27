@@ -1,5 +1,6 @@
 (function(){
     var $ = jQuery;
+    var $html = $('html');
     var google = window.google;
     var initMaps = function () {
         var geocoder;
@@ -57,7 +58,7 @@
         countries.push( $(this).text() );
       });
 
-    $('#country').autocomplete({
+    $('#country, #countries').autocomplete({
         source: countries
     });
 
@@ -112,7 +113,33 @@
       });
 
 
+    var confirmDelete = function () {
+            var deleteBtn = $('.delete');
+
+            deleteBtn
+                .on('click', function (e) {
+                    e.preventDefault();
+                    var link = $(this);
+                    if ( confirm("Are you sure you want to delete this event?") )
+                    {
+                      $html.addClass('ajax-wait');
+                      $.get(
+                            link.attr('href')
+                          )
+                        .done(function(data) {
+                            link.parents('tr').remove();
+                          })
+                        .always(function() {
+                            $html.removeClass('ajax-wait');
+                          });
+                    }
+                  });
+      };
+
     //Google maps
     initMaps();
+
+    //Confirm delete in admin part
+    confirmDelete();
 
 })();

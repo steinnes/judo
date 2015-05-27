@@ -67,7 +67,7 @@ def rebuild_countries():
         print "\n ... has the database been initialized?"
     else:
         print "Rebuilt countries, total # of countries: {}".format(n_countries)
-    
+
 
 @cli.command()
 def showsql(table=None):
