@@ -23,15 +23,17 @@
 
    <div class="edesc">
     <h3>Description:</h3>
-    <p>{{event.description}}</p>
+    <p>{{!event.description}}</p>
    </div>
 
+   % if len(event.attachments) != 0:
    <h3>Files</h3>
    <ul>
     %for attachment in event.attachments:
       <li><a href="/attachment/{{attachment.id}}">{{attachment.file_name}}</a></li>
     %end
    </ul>
+   % end
 
 
 

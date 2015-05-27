@@ -133,13 +133,10 @@ def events():
 @app.route('/events/<current:int>')
 @bottle.view('event.html')
 def event(current):
-    print current
-    print type(current) is int
     session = create_session()
-    result = session.query(Event).get(current)
-    # result = session.query(Event).filter_by(id=current)
-    print result
-    return dict(event=result, get_url=app.get_url)
+    event = session.query(Event).get(current)
+    event.description = event.description.replace("\n", "<br />\n")
+    return dict(event=event, get_url=app.get_url)
 
 
 @app.route('/admin')
@@ -228,6 +225,7 @@ def attachment(attachment_id):
 
 
 if __name__ == "__main__":
+    bottle.debug(True)
     app.run(host='localhost', port=8080, debug=True, reloader=True)
 
 

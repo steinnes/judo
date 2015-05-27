@@ -1,14 +1,24 @@
+import os
 import time
 import hashlib
 
+FILE_SAVE_PATH = '/tmp/judo'
 
 class InvalidFileUpload(Exception):
     pass
 
 
-def save_file(upload):
+def _ensure_path(path):
+    curpath = ""
+    for p in path.split("/"):
+        curpath += "{}/".format(p)
+        if not os.path.exists(curpath):
+            os.mkdir(curpath)
+
+def save_file(upload, path=FILE_SAVE_PATH):
     print "upload=", upload
-    FILE_SAVE_PATH = '/tmp/judo'
+    _ensure_path(path)
+
     allowed_filetypes = {
         'image/jpeg': ('jpg', 'jpeg'),
         'image/png': ('png'),
@@ -21,7 +31,7 @@ def save_file(upload):
         raise InvalidFileUpload("Invalid file suffix: {}, supported for this type: {}".format(
             file_suffix, allowed_filetypes[upload.content_type]))
 
-    file_path = "{}/{}".format(FILE_SAVE_PATH, hashlib.sha1(upload.filename + str(time.time())).hexdigest())
+    file_path = "{}/{}".format(path, hashlib.sha1(upload.filename + str(time.time())).hexdigest())
     f = open(file_path, "w")
     f.write(upload.file.read())
     return file_path
