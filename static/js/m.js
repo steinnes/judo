@@ -62,30 +62,11 @@
         source: countries
     });
 
-    var attachment = $('.file_input'),
-        no_attachments = attachment.length;
-        // attachmentClone = attachment.clone();
-
-    $('<a class="add_attachment" href="#">+</a>').insertAfter(attachment);
-
-    $('body').on('click', '.add_attachment', function (e) {
-        e.preventDefault();
-
-        var link = $(this);
-        var attachmentClone = attachment.clone(),
-            name = attachment.find('input').attr('name').split('_')[0] + "_" + (no_attachments++);
-
-        attachmentClone.find('input').attr('name', name);
-
-        attachmentClone.insertBefore( link );
-      });
-
-
     //Append more file attachments fields
     var attachment = $('.file_input'),
         no_attachments = attachment.length;
 
-    $('<a class="add_attachment" href="#">+</a>').insertAfter(attachment);
+    $('<a class="add_attachment" href="#">..more</a>').insertAfter(attachment);
 
     $('body').on('click', '.add_attachment', function (e) {
         e.preventDefault();
