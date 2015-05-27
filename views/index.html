@@ -4,19 +4,18 @@
     <h1>Search tournaments</h1>
     <form class="search" action="/events" methon="post">
 
-    <!--div class="txt_input">
-      <label for="date">Date</label>
-      <input type="text" name="date" id="searchdate">
-    </div-->
     <div class="sel_input">
-       <label for="countries">Country (DROP DOWN TBD):</label>
+       <label for="countries">Country:</label>
        <input id="countries" type="text" name="countries" value="" />
       <ul class="countries">
         %for c in countries:
-          <li data-continent="{{c.continent}}" data-value="{{c.id}}">{{c.name}}</li>
+          <li data-value="{{c.id}}">{{c.name}}</li>
         %end
       </ul>
     </div>
+
+    <input type="hidden" id="cont" name="" value="" />
+
     <div class="sel_input">
       <label for="age">Age</label>
       <select id ="age" name="age">

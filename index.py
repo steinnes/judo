@@ -110,8 +110,6 @@ def events():
     filters = {}
     if form['countries'] != 'Any':
         filters['country'] = form['countries']
-    if form['continents'] != 'Any':
-        filters['continent'] = CONTINENTS[int(form['continents'])]
     del form['countries']
     del form['continents']
 
