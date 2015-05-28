@@ -21,11 +21,16 @@ class EventForm(Form):
     city = StringField(u'City', validators=[validators.required()])
     start_date = DateField(u'Start Date', validators=[validators.required()])
     end_date = DateField(u'End Date', validators=[validators.required()])
-    min_age = IntegerField()
-    max_age = IntegerField()
+    min_yob = IntegerField()
+    max_yob = IntegerField()
     gender = SelectField(choices=[(i, i) for i in GENDERS],
         validators=[validators.required()])
     description = StringField()
     attachment = FileField()
     address = StringField(u'Address')
     webpage = StringField()
+
+
+class SearchForm(Form):
+    country = StringField(u'Country')
+    yob = IntegerField(u'Year of Birth', default=None)
