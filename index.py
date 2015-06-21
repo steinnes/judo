@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 
 from models import Base, Event, Country, Attachment, CONTINENTS, EVENT_TYPES, GENDERS
 
-from forms import EventForm
+from forms import EventForm, SearchForm
 
 from utils import save_file, scan_attachments, InvalidFileUpload
 
@@ -99,35 +99,34 @@ def new(errors=None):
         get_url=app.get_url)
 
 
-@post('/events')
-@app.route('/events')
+@app.route('/events', method="POST")
 @bottle.view('events.html')
 def events():
-    form = request.query.decode('utf-8')
+    form = SearchForm(request.forms.decode())
     # XXX: make WTForm for this and validate!
 
-    filters = {}
-    if form['countries'] != 'Any':
-        filters['country'] = form['countries']
-    if form['continents'] != 'Any':
-        filters['continent'] = CONTINENTS[int(form['continents'])]
-    del form['countries']
-    del form['continents']
+    if form.validate():
+        filters = {}
+        if form.country.data != "":
+            filters['country'] = form.country.data
 
-    session = create_session()
-    matching_events = session.query(Event).filter_by(**filters).\
-        filter(Event.end_date > datetime.now()).\
-        filter(Event.start_date >= datetime.now()).\
-        order_by(Event.start_date)
+        session = create_session()
+        matching_events = session.query(Event).filter_by(**filters).\
+            order_by(Event.start_date)
 
-    if form['age']:
-        matching_events = matching_events.\
-            filter(form['age'] <= Event.max_age).\
-            filter(form['age'] >= Event.min_age)
+        print "--------------------"
+        print form.yob.data
+        print form.yob is None
+        if form.yob is not None:
+            print form['yob']
+            matching_events = ((matching_events)
+                .filter(form.yob.data <= Event.max_yob) #1985 <= 2000
+                .filter(form.yob.data >= Event.min_yob)) #1985 >= 1980
 
-    e = list(matching_events)
-    return dict(events=e, get_url=app.get_url)
 
+        e = list(matching_events)
+        return dict(events=e, get_url=app.get_url)
+    return dict(events=[], error="nothing found", get_url=app.get_url)
 
 @app.route('/events/<current:int>')
 @bottle.view('event.html')

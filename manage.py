@@ -38,10 +38,38 @@ def create_test_events():
     """
     try:
         session = create_session()
-        # name, organization_name, event_type, continent,  country, city, start_date, end_date, min_age, max_age, gender, description, attachment, location
-        event_1 = Event(name="reykjavik international", organization_name="JFA", event_type="Tournament", continent="Europe", country="Iceland", city="reykjavik", start_date=datetime.date(2014, 05, 10), end_date=datetime.date(2014, 05, 13), min_age=15, max_age=60, gender="all", description="rock this shit", location=u"Ármúla 17a")
-        event_2 = Event(name="Nordic Open", organization_name="JFA", event_type="Tournament", continent="Europe", country="Iceland", city="reykjavik", start_date=datetime.date(2014, 06, 10), end_date=datetime.date(2014, 05, 13), min_date=15, max_date=60, gender="all", description="rock this shit", location=u"Ármúla 17a")
-        session.add_all([event_1, event_2])
+        # name, organization_name, event_type, continent,  country, city, start_date, end_date, min_yob, max_yob, gender, description, attachment, location
+        event_1 = Event(
+            name="reykjavik international",
+            organization_name="JFA",
+            event_type="Tournament",
+            continent="Europe",
+            country="Iceland",
+            city="reykjavik",
+            start_date=datetime.datetime.now(),
+            end_date=datetime.datetime.now() + datetime.timedelta(days=3),
+            min_yob=1955,
+            max_yob=2000,
+            gender="all",
+            description="rock this shit",
+            location=u"Ármúla 17a")
+
+        event_2 = Event(
+            name="Nordic Open",
+            organization_name="JFA",
+            event_type="Tournament",
+            continent="Europe",
+            country="Iceland",
+            city="reykjavik",
+            start_date=datetime.datetime.now(),
+            end_date=datetime.datetime.now() + datetime.timedelta(days=5),
+            min_yob=1955,
+            max_yob=2000,
+            gender="all",
+            description="rock this shit",
+            location=u"Ármúla 17a")
+
+        session.add_all([event_1,event_2])
         session.commit()
     except sqlalchemy.exc.OperationalError as e:
         print "Exception in `create_test_events`: ", e
