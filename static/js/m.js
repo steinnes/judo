@@ -59,7 +59,12 @@
       });
 
     $('#country, #countries').autocomplete({
-        source: countries
+        source: countries,
+        select: function (ui, item) {
+          ;;;window.console&&console.log( [ui] );
+          ;;;window.console&&console.log( [item] );
+            // countries.indexOf()
+          }
     });
 
     //Append more file attachments fields
@@ -117,10 +122,34 @@
                   });
       };
 
+    var prepSpamEmail = function () {
+            $('.email')
+                .each(function () {
+                    var emailElm = $(this),
+                        emailAddress = $(this).attr('href');
+
+                    if ( emailElm.attr('href').indexOf('[at]') != -1 )
+                    {
+                      emailAddress = emailAddress.replace('[at]', '@');
+
+                      if ( emailElm.attr('href').indexOf('[.]') != -1 )
+                      {
+                        emailAddress = emailAddress.replace('[.]', '.');
+                      }
+
+                      emailElm.attr('href', emailAddress);
+                      emailElm.text(emailAddress.split('mailto:')[1]);
+                    }
+                  });
+      };
+
     //Google maps
     initMaps();
 
     //Confirm delete in admin part
     confirmDelete();
+
+    //Unspamify email
+    prepSpamEmail();
 
 })();

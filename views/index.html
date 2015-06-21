@@ -2,24 +2,21 @@
 
   <div class="search">
     <h1>Search tournaments</h1>
-    <form class="search" action="/events" methon="post">
+    <form class="search" action="/events" method="POST">
 
-    <!--div class="txt_input">
-      <label for="date">Date</label>
-      <input type="text" name="date" id="searchdate">
-    </div-->
     <div class="sel_input">
-       <label for="countries">Country (DROP DOWN TBD):</label>
-       <input id="countries" type="text" name="countries" value="" />
+       <label for="country">Country:</label>
+       <input id="country" type="text" name="country" value="" />
       <ul class="countries">
         %for c in countries:
-          <li data-continent="{{c.continent}}" data-value="{{c.id}}">{{c.name}}</li>
+          <li data-value="{{c.id}}">{{c.name}}</li>
         %end
       </ul>
     </div>
+
     <div class="sel_input">
-      <label for="age">Age</label>
-      <select id ="age" name="age">
+      <label for="yob">Age</label>
+      <select id="yob" name="yob">
         <option value="">Select your age</option>
         <option value="{{year-30}}">Veterans ({{year-30}} and before)</option>
         <option value="{{year-15}}">Senior ({{year-15}} and before)</option>
@@ -50,7 +47,7 @@
          <td>{{event.country}}</td>
          <td><a href="/events/{{event.id}}">{{event.name}}</a></td>
          <td>{{event.start_date}}</td>
-         <td>{{event.min_age}} - {{event.max_age}}
+         <td>{{event.min_yob}} - {{event.max_yob}}
        </tr>
     %end
     </table>
