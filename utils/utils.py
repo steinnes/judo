@@ -4,6 +4,7 @@ import hashlib
 
 FILE_SAVE_PATH = '/tmp/judo'
 
+
 class InvalidFileUpload(Exception):
     pass
 
@@ -14,6 +15,7 @@ def _ensure_path(path):
         curpath += "{}/".format(p)
         if not os.path.exists(curpath):
             os.mkdir(curpath)
+
 
 def save_file(upload, path=FILE_SAVE_PATH):
     print "upload=", upload
@@ -35,6 +37,7 @@ def save_file(upload, path=FILE_SAVE_PATH):
     f = open(file_path, "w")
     f.write(upload.file.read())
     return file_path
+
 
 def scan_attachments(form):
     """
