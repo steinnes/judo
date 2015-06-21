@@ -1,5 +1,7 @@
+#!/usr/bin/env python
 # encoding=UTF-8
 
+import os
 import datetime
 import click
 import sqlalchemy
@@ -7,11 +9,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import Event, Country, Base
 
-engine = create_engine("sqlite:///judotube.db", echo=False)
+engine_uri = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///judotube.db')
+engine = create_engine(engine_uri, echo=False)
 
 
 def create_session():
     return sessionmaker(bind=engine)()
+
 
 @click.group()
 def cli():
