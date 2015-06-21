@@ -79,4 +79,3 @@ class Attachment(Base):
     file_path = Column(String())
     file_type = Column(String())
     file_name = Column(String())
-
