@@ -16,7 +16,7 @@ class Event(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(64))
     organization_name = Column(String(64))
-    event_type = Column(Enum(*EVENT_TYPES), default="Tournament")
+    event_type = Column(Enum(*EVENT_TYPES, name="event_type"), default="Tournament")
     continent = Column(String())
     country = Column(String(16))
     city = Column(String())
