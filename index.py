@@ -1,11 +1,9 @@
+import os
 import bottle
-import hashlib
-import time
 from datetime import datetime, date
 from bottle import request, response, redirect, post, static_file
 from bottle.ext import sqlalchemy
-from sqlalchemy import create_engine, MetaData
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from models import Base, Event, Country, Attachment, CONTINENTS, EVENT_TYPES, GENDERS
@@ -14,7 +12,8 @@ from forms import EventForm, SearchForm
 
 from utils import save_file, scan_attachments, InvalidFileUpload
 
-engine = create_engine('sqlite:///judotube.db', echo=True)
+engine_uri = os.environ.get('SQLALCHEMY_DATABASE_URI', 'sqlite:///judotube.db')
+engine = create_engine(engine_uri, echo=True)
 create_session = sessionmaker(bind=engine)
 
 app = bottle.Bottle()
@@ -211,6 +210,7 @@ def contact():
 @app.route('/static/:path#.+#', name='static')
 def static(path):
     return static_file(path, root='static')
+
 
 @app.route('/attachment/:attachment_id')
 def attachment(attachment_id):
