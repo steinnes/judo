@@ -19,3 +19,4 @@ ul.countries{display:none}
 .nav li{display:inline-block;margin-right:-.3em}
 .nav li a{padding:1em}
 .footer{margin-top:40px;padding-top:20px;border-top:1px solid #eee}
+h1.logo{float: left; clear: none; margin-right: -200px}
